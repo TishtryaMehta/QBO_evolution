@@ -1,6 +1,6 @@
 from v1f_data_sorting import wavelet_data_reader, data_preprocessing
 from wavelet_spectrum_maker import wavelet_analysis_finder
-from constants import SAVE_PATH, DATA_PATH
+from constants import SAVE_PATH, DATA_PATH, DATA_PATH_DIRECTORY
 from wavelet_errorbars import errorbar_finder
 from wavelet_spectrum_plotter import spectrum_plotter
 from wavelet_data_saver import wavelet_data_saver
