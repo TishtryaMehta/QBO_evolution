@@ -4,7 +4,7 @@ import pandas as pd
 import glob
 import os
 import datetime
-from constants import DATA_PATH_DIRECTORY, DATA_PATH_OUTPUT, DATASET_HEADER, MIN_M, MAX_M, MIN_N, MAX_N, MIN_L, MAX_L
+from constants import DATA_PATH_DIRECTORY, SAVE_PATH, DATASET_HEADER, MIN_M, MAX_M, MIN_N, MAX_N, MIN_L, MAX_L
 from data_analyser import find_all_frequencies
 from data_reading import filename_finder_ell, read_frequency_dataset, savedata
 import multiprocessing as mp
@@ -15,7 +15,7 @@ import math
 # Unprocessed v1f data can be found on the GONG Helioseimic data archives: http://gong2.nso.edu/
 # TO RUN THIS CODE, SAVE A DIRECTORY OF V1F DATA IN THE DIREWCTORY SPECIFIED BY datapath.
 # THE DIRECTORY SHOULD CONTAIN ONLY THE V1F DATA, NOTHING ELSE.
-# THE CODE WILL THEN SAVE THE .npz file IN THE DIRECTORY SPECIFIED BY DATA_PATH_OUTPUT, WHICH WILL CONTAIN
+# THE CODE WILL THEN SAVE THE .npz file IN THE DIRECTORY SPECIFIED BY SAVE_PATH, WHICH WILL CONTAIN
 # THE TIMESERIES OF NU, DNU, AND THE AVG FREQ, AND MODE ANGLE FOR ALL COMBINATIONS OF m, n, and ell.
 
 # THIS CODE USES data_analyser.py, data_reading.py, constants.py
@@ -137,7 +137,7 @@ def analysis_ell(ell):
 
 #---------------------INPUTS------------------------
 datapath = DATA_PATH_DIRECTORY+"/GONG_v1f_raw_23/"
-outputname='/v1f_output_cycle_23.npz'
+outputname='/test_v1f.npz'
 #----------------------------------------------------
 
 #---------------------MAIN CODE------------------------
@@ -182,7 +182,7 @@ save_dnu_array=save_dnu_array.reshape(-1, save_dnu_array.shape[-1])
 save_angle_array=save_angle_array.flatten()
 
 # Save the output
-np.savez(DATA_PATH_OUTPUT+outputname, m_array = save_m_array, n_array = save_n_array, ell_array = save_ell_array, avg_nu= save_avg_nu_array, nu_array = save_nu_array, dnu_array = save_dnu_array, angle = save_angle_array)
+np.savez(SAVE_PATH+outputname, m_array = save_m_array, n_array = save_n_array, ell_array = save_ell_array, avg_nu= save_avg_nu_array, nu_array = save_nu_array, dnu_array = save_dnu_array, angle = save_angle_array)
 end_time = datetime.datetime.now()
 # Print time taken
 print("Time taken: ", end_time - start_time)

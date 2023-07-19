@@ -77,7 +77,7 @@ def lag1_finder(data):
 #""""""""""""""""""""""""""""""""""""""""""""""""""""
 # WAVELET ANALYSIS
 #""""""""""""""""""""""""""""""""""""""""""""""""""""
-def wavelet_analysis(data, dt):
+def wavelet_analysis_finder(data, dt):
     #Calls by WAVELETFUNCTIONS.py (Obatined from GitHub by 'Evgeniya Predybaylo') 
     num=len(data)
     time_array=np.arange(num)*dt
@@ -125,12 +125,11 @@ def wavelet_analysis(data, dt):
     a significance level (default 0.95/95%) and the 
     degrees of freedom.
     """
-
     #powerspecfreq,powerspecamp,alpha=power_spectrum(data,dt)
     #We determine the value of lag1 by running an autocorrelation in lag1_finder()
     lag1=lag1_finder(data)
     #print('Lag1 for this data is: ',lag1)
-    signif = wave_signif(variance, dt=dt, sigtest=0, scale=scale,lag1=lag1, mother=mother) 
+    signif = wave_signif(variance, dt=dt, sigtest=0, scale=scale, siglvl=0.98, lag1=lag1, mother=mother) 
     # calculate the significance 
     sig95 = signif[:, np.newaxis].dot(np.ones(num)[np.newaxis, :]) 
     # expand signif --> (J+1)x(N) array

@@ -23,12 +23,12 @@ def minmaxperiod(contour_data,index_data, period_data, power_data,delta_days, ov
     #In some cases, the contour data is not a list of 1 paths, but a list of 2 or more paths.
     #in this case, we take the longest contour (with the largest perimeter)
     # for all the cases do p =  contour_data.collections[0].get_paths()[n] from n=0 to len(get_paths)
-    if overwrite< 7:
+    if overwrite< 20:
         p = contour_data.collections[0].get_paths()[overwrite]
         v = p.vertices
         t_contour = v[:,0]
         per_contour = v[:,1]
-    elif overwrite >=7:
+    elif overwrite >=20:
         length_contour=[]
         for n in np.arange(0, len(contour_data.collections[0].get_paths())):
             #print('n is', n)
@@ -45,8 +45,8 @@ def minmaxperiod(contour_data,index_data, period_data, power_data,delta_days, ov
         max_length_contour=length_contour.index(max(length_contour))
         
         # UNCOMMENT TO VISUALISE AND CHOOSE CONTOUR
-        print('Lengths of the contours: ', length_contour, )
-        print('The index of the largest contour is: ', max_length_contour)
+        #print('Lengths of the contours: ', length_contour, )
+        #print('The index of the largest contour is: ', max_length_contour)
       
         #refind the data for the largest contour
         p = contour_data.collections[0].get_paths()[max_length_contour]
@@ -113,6 +113,7 @@ def period_overall_max_power(power_data, period_data, indexmin,indexmax):
     #print('period:', period_data[np.where(power_data[:,index_max_power]==max(power_data[:,index_max_power]))][0])
     #Find the period corresponding to the maximum power
     period_max_power= period_data[np.where(power_data[:,index_max_power]==max(power_data[:,index_max_power]))][0]
+    
     return period_max_power, index_max_power
 
 
@@ -164,20 +165,32 @@ def solarmax_finder(time_data,input_data, lower_index, upper_index):
 
   
     
-def errorbar_finder(t, data_raw, power, period, sig95, seg1_index_min, seg1_index_max,contour_chooser):
+def errorbar_finder(t, data_raw, power, period, sig95, seg1_index_min, seg1_index_max):
     
     #obtain overall max power and period 
     max_power_period, index_max_power=period_overall_max_power(power, period,seg1_index_min,seg1_index_max)
     fig, ax = plt.subplots()
     contours = ax.contour(t, period, sig95, [1.0])
+    total_contours=len(contours.collections[0].get_paths())
+
     plt.close()
 
     #Obtain Solarmax, Solarmin and index_solarmax
     solarmax, solarmin, delta_days, index_solarmax=solarmax_finder(t,data_raw, seg1_index_min, seg1_index_max)
     #Obtain solarmax_period, solarmax_period_min,solarmax_period_max,
-    solarmax_period, solarmax_period_min,solarmax_period_max, t_contour, per_contour=minmaxperiod(contours,index_solarmax, period, power, delta_days,contour_chooser)
+
+    solarmax_period, solarmax_period_min,solarmax_period_max, t_contour, per_contour=minmaxperiod(contours,index_solarmax, period, power, delta_days,0)
 
     #Obtain max_power_min,max_power_max
-    max_power_min,max_power_max=minmax_maxpowerfinder(contours, index_max_power, period, power,t,contour_chooser)
+    minimum_lower_error_diff=[]
+    maximum_upper_error_diff=[]
+    for contour_chooser in np.arange(0,total_contours):
+        max_power_min,max_power_max=minmax_maxpowerfinder(contours, index_max_power, period, power,t,contour_chooser)
+        minimum_lower_error_diff.append(max_power_period-max_power_min)
+        maximum_upper_error_diff.append(max_power_max-max_power_period)
+        #print(max_power_min, contour_chooser)
+
+    max_power_max=max_power_period + min(maximum_upper_error_diff)
+    max_power_min= max_power_period- min(minimum_lower_error_diff)
 
     return solarmax, solarmin, max_power_period, max_power_min, max_power_max, index_max_power, solarmax_period, solarmax_period_min, solarmax_period_max, index_solarmax

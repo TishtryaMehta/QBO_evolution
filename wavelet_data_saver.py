@@ -35,7 +35,7 @@ def wavelet_data_saver(SAVE_PATH, csvname,errorbar_packed,t):
 
     data_list = [solarmax, solarmin, max_power_period, max_power_min, max_power_max, t[index_max_power], solarmax_period, solarmax_period_min, solarmax_period_max, index_solarmax]
     file_exists = os.path.isfile(SAVE_PATH+'/'+csvname+'.csv')
-
+    """
     with open(SAVE_PATH+'/'+csvname+'.csv', 'a') as f_object:
         if not file_exists:
             writer_object = writer(f_object)
@@ -45,6 +45,7 @@ def wavelet_data_saver(SAVE_PATH, csvname,errorbar_packed,t):
         writer_object.writerow(data_list)
         f_object.close()
     print('CSV output saved to: ',SAVE_PATH+'/'+csvname+'.csv')
-
+    """
     print('Analysis Complete')
     print("******************************************************************************")
+    return solarmax, solarmin, max_power_period, max_power_min, max_power_max, t[index_max_power], solarmax_period, solarmax_period_min, solarmax_period_max, index_solarmax
