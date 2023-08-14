@@ -32,29 +32,29 @@ The above is then saved as a figure, with title as a user defined variable
 Alongside downloading the input data, the user will have to change the following variables:
 
 #    User chosen variables
-#    ----------
-#    filename : string
-#        Name of the file containing the data (csv or txt format)
-#    index : int
-#        The index of where the data is saved in the input file
-#    savgol_wl : int
-#        The window length for the savgol filter
-#    savgol_pol : int
-#        The polynomial order for the savgol filter
-#    starttime : datetime.datetime
-#        The start time of the data (YYYY, M, D)
-#    dt : int
-#        The time step of the data in days
-#    title : string
-#        The title of the output plot and csv file
-#    seg1_index_min : int                                            ****
-#        The minimum index of the data to be examined
-#    seg1_index_max : int
-#        The maximum index of the data to be examined
-#    DATA_PATH : string
-#        The path to where the input data is saved
-#    SAVE_PATH : string
-#        Where the output plot and csv file are saved
+   ----------
+   filename : string
+       Name of the file containing the data (csv or txt format)
+   index : int
+       The index of where the data is saved in the input file
+   savgol_wl : int
+       The window length for the savgol filter
+   savgol_pol : int
+       The polynomial order for the savgol filter
+   starttime : datetime.datetime
+       The start time of the data (YYYY, M, D)
+   dt : int
+       The time step of the data in days
+   title : string
+       The title of the output plot and csv file
+   seg1_index_min : int                                            ****
+       The minimum index of the data to be examined
+   seg1_index_max : int
+       The maximum index of the data to be examined
+   DATA_PATH : string
+       The path to where the input data is saved
+   SAVE_PATH : string
+       Where the output plot and csv file are saved
 
 **** To examine the full duration of the data seg1_index_min should =0 and seg1_index_max should = -1. 
 
